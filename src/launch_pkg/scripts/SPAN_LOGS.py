@@ -3,7 +3,6 @@
 # Author: Brandon Medellin
 # Last Update: 01/25/2023
 
-from ctypes.wintypes import MSG
 from email import header
 import struct
 from novatel_pkg.msg import INSPVAS, RANGE, RAWIMUSX, BESTPOS
