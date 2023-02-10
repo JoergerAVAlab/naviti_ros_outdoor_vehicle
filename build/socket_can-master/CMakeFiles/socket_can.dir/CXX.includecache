@@ -1,0 +1,38 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/naviti/naviti_catkin_ws/src/socket_can-master/include/socket_can/socket_can.hpp
+cstdint
+-
+errno.h
+-
+stdio.h
+-
+stdlib.h
+-
+unistd.h
+-
+string.h
+-
+net/if.h
+-
+sys/types.h
+-
+sys/socket.h
+-
+sys/ioctl.h
+-
+linux/can.h
+-
+linux/can/raw.h
+-
+
+/home/naviti/naviti_catkin_ws/src/socket_can-master/src/socket_can.cpp
+socket_can/socket_can.hpp
+-
+

@@ -1,0 +1,8 @@
+prefix=/home/naviti/naviti_catkin_ws/devel
+
+Name: ouster_ros
+Description: Description of ouster_ros
+Version: 0.1.0
+Cflags: -I/home/naviti/naviti_catkin_ws/devel/include -I/home/naviti/naviti_catkin_ws/src/ouster_example-master/ouster_ros/include -I/home/naviti/naviti_catkin_ws/src/ouster_example-master/ouster_ros/../ouster_client/include -I/home/naviti/naviti_catkin_ws/src/ouster_example-master/ouster_ros/../ouster_client/include/optional-lite -I/home/naviti/naviti_catkin_ws/src/ouster_example-master/ouster_ros/../ouster_viz/include -I/usr/include/eigen3 -I/usr/include
+Libs: -L${prefix}/lib -louster_ros /usr/lib/x86_64-linux-gnu/libglfw.so.3.2 /usr/lib/x86_64-linux-gnu/libGLEW.so
+Requires: roscpp message_runtime pcl_ros std_msgs sensor_msgs geometry_msgs

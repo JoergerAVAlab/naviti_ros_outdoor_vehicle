@@ -1,0 +1,8 @@
+prefix=/home/naviti/naviti_catkin_ws/install
+
+Name: socket_can
+Description: Description of socket_can
+Version: 0.0.0
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib -lsocket_can
+Requires: 

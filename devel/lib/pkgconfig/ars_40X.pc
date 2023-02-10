@@ -1,0 +1,8 @@
+prefix=/home/naviti/naviti_catkin_ws/devel
+
+Name: ars_40X
+Description: Description of ars_40X
+Version: 0.0.0
+Cflags: -I/home/naviti/naviti_catkin_ws/devel/include -I/home/naviti/naviti_catkin_ws/src/ars_40X-master/include
+Libs: -L${prefix}/lib -lars_40X_can -lars_40X_msg
+Requires: message_runtime roscpp socket_can

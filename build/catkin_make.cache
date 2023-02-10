@@ -1,0 +1,2 @@
+ars_40X-master:launch_pkg:novatel_pkg:ouster_example-master/ouster_ros:socket_can-master
+-DCATKIN_DEVEL_PREFIX=/home/naviti/naviti_catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/naviti/naviti_catkin_ws/install -G Unix Makefiles

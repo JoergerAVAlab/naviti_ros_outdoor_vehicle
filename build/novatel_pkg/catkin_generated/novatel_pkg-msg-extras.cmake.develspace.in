@@ -1,0 +1,2 @@
+set(novatel_pkg_MESSAGE_FILES "/home/naviti/naviti_catkin_ws/src/novatel_pkg/msg/CommonShortHeader.msg;/home/naviti/naviti_catkin_ws/src/novatel_pkg/msg/CommonLongHeader.msg;/home/naviti/naviti_catkin_ws/src/novatel_pkg/msg/RANGE.msg;/home/naviti/naviti_catkin_ws/src/novatel_pkg/msg/INSPVAS.msg;/home/naviti/naviti_catkin_ws/src/novatel_pkg/msg/RAWIMUSX.msg;/home/naviti/naviti_catkin_ws/src/novatel_pkg/msg/BESTPOS.msg")
+set(novatel_pkg_SERVICE_FILES "")
