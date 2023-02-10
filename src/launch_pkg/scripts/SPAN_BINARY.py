@@ -3,8 +3,7 @@
 import rospy
 from std_msgs.msg import String
 import serial
-from sensor_msgs.msg import Imu
-from novatel_pkg.msg import INSPVAS, RANGE, RAWIMUSX
+from novatel_pkg.msg import INSPVAS, RANGE, RAWIMUSX, BESTPOS
 from colorama import Fore, Back, Style
 import SPAN_LOGS as sl
 
@@ -16,6 +15,7 @@ def SPAN_node():
 	pub_INSPVAS = rospy.Publisher('INPVAS_publisher', INSPVAS, queue_size=600)
 	pub_RAWIMUSX = rospy.Publisher('RAWIMUSX_publisher', RAWIMUSX, queue_size=600)
 	pub_RANGE = rospy.Publisher('RANGE_publisher', RANGE, queue_size=3)
+	pub_BESTPOS = rospy.Publisher('BESTPOS_publisher', BESTPOS, queue_size=3)
 
 	rospy.init_node('SPAN_node')
 	align = False
@@ -50,7 +50,7 @@ def SPAN_node():
 					msg_hex = Propak6.read(msg_len).encode("hex")
 					msg = sl.inspvas_rosmsg(msg_hex, header_hex)
 					pub_INSPVAS.publish(msg)
-					rospy.loginfo(msg)
+					#rospy.loginfo(msg)
 				elif msg_id == sl.RAWIMUSXB["MsgID"]:
 					msg_hex = Propak6.read(msg_len).encode("hex")
 					msg = sl.rawimusx_rosmsg(msg_hex, header_hex)
@@ -65,6 +65,11 @@ def SPAN_node():
 						msg = sl.range_rosmsg(msg_hex, header_hex)
 						pub_RANGE.publish(msg)
 						rospy.loginfo(msg)
+				elif msg_id == sl.BESTPOSB["MsgID"]:
+						msg_hex = Propak6.read(msg_len).encode("hex")
+						msg = sl.bestpos_rosmsg(msg_hex, header_hex)
+						pub_BESTPOS.publish(msg)
+						#rospy.loginfo(msg)
 				else:
 					rospy.loginfo("HIT ELSE: UNKNOWN LOG " + str(msg_len) + " " + str(msg_id))
 

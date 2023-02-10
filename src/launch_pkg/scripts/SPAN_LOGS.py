@@ -3,10 +3,10 @@
 # Author: Brandon Medellin
 # Last Update: 01/25/2023
 
+from ctypes.wintypes import MSG
 from email import header
 import struct
-from sensor_msgs.msg import Imu
-from novatel_pkg.msg import INSPVAS, RANGE, RAWIMUSX
+from novatel_pkg.msg import INSPVAS, RANGE, RAWIMUSX, BESTPOS
 
 HEX = 2   # number of characters in hex that represent 1 BYTE
 
@@ -131,7 +131,7 @@ BESTPOSB = {
 	"#SVs":(64,'B'),
 	"#solSVs":(65,'B'),
 	"#solL1SVs":(66,'B'),
-	"solMultiSVs":(67,'B'),
+	"#solMultiSVs":(67,'B'),
 }
 
 
@@ -190,6 +190,27 @@ def range_rosmsg(msg_hex, header_hex):
 	msg.c_no = Get_Value(msg_hex, RANGEB["C/No"])
 	msg.locktime = Get_Value(msg_hex, RANGEB["ch-tr-status"])
 	return msg
+
+def bestpos_rosmsg(msg_hex, header_hex):
+	msg = BESTPOS()
+	msg = populate_long_header(msg, header_hex)
+	msg.sol_stat = Get_Value(msg_hex, BESTPOSB["sol stat"])
+	msg.pos_type = Get_Value(msg_hex, BESTPOSB["pos type"])
+	msg.lat = Get_Value(msg_hex, BESTPOSB["lat"])
+	msg.lon = Get_Value(msg_hex, BESTPOSB["lon"])
+	msg.hgt = Get_Value(msg_hex, BESTPOSB["hgt"])
+	msg.undulation = Get_Value(msg_hex, BESTPOSB["undulation"])
+	msg.datum_id = Get_Value(msg_hex, BESTPOSB["datum id"])
+	msg.lat_std = Get_Value(msg_hex, BESTPOSB["lat std"])
+	msg.lon_std = Get_Value(msg_hex, BESTPOSB["lon std"])
+	msg.hgt_std = Get_Value(msg_hex, BESTPOSB["hgt std"])
+	msg.stn_id = Get_Value(msg_hex, BESTPOSB["base station ID"])
+	msg.diff_age = Get_Value(msg_hex, BESTPOSB["diff age"])
+	msg.sol_age = Get_Value(msg_hex, BESTPOSB["sol age"])
+	msg.num_sats = Get_Value(msg_hex, BESTPOSB["#SVs"])
+	msg.num_sol_sats = Get_Value(msg_hex, BESTPOSB["#solSVs"])
+	msg.num_sol_l1_sats = Get_Value(msg_hex, BESTPOSB["#solL1SVs"])
+	msg.num_sol_multi_sats = Get_Value(msg_hex, BESTPOSB["#solMultiSVs"])
 
 ######################## Helper Functions #################################
 
