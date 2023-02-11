@@ -35,7 +35,7 @@ float32 lon_std
 float32 hgt_std
 
 # Base station ID 
-string stn_id
+char[4] stn_id
 
 # Differential age in seconds
 float32 diff_age
