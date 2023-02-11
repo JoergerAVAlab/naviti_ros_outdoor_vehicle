@@ -22,7 +22,7 @@ FORMATS = {
 		'L':4, # Unsigned 32-bit Integer
 		'd':8, # (Double) 64-bit Float
 		'f':4, # (Float) 32-bit Float
-		's':4, # a character array (string) NOTE: I made it only length 4 for BESTPOS
+		'4s':4, # 4 byte character array (string)
 }
 
 # Short Header Documentation https://docs.novatel.com/OEM7/Content/Messages/Description_of_Short_Headers.htm
