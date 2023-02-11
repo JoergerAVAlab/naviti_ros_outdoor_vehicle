@@ -125,7 +125,7 @@ BESTPOSB = {
 	"lat std":(40,'f'),
 	"lon std":(44,'f'),
 	"hgt std":(48,'f'),
-	"base station ID":(52,'4c'),
+	"base station ID":(52,'4s'),
 	"diff age":(56,'f'),
 	"sol age":(60,'f'),
 	"#SVs":(64,'B'),
