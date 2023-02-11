@@ -29,7 +29,7 @@ uint32 datum_id
 float32 lat_std
 
 # Longitude standard dev
-float32 long_std
+float32 lon_std
 
 # Height standard dev 
 float32 hgt_std
