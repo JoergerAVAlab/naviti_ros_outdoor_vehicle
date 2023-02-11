@@ -16,6 +16,7 @@ def SPAN_node():
 	pub_RAWIMUSX = rospy.Publisher('RAWIMUSX_publisher', RAWIMUSX, queue_size=600)
 	pub_RANGE = rospy.Publisher('RANGE_publisher', RANGE, queue_size=3)
 	pub_BESTPOS = rospy.Publisher('BESTPOS_publisher', BESTPOS, queue_size=3)
+	pub_BESTGNSSPOS = rospy.Publisher('BESTGNSSPOS_publisher', BESTPOS, queue_size=3)
 
 	rospy.init_node('SPAN_node')
 	align = False
@@ -69,7 +70,12 @@ def SPAN_node():
 						msg_hex = Propak6.read(msg_len).encode("hex")
 						msg = sl.bestpos_rosmsg(msg_hex, header_hex)
 						pub_BESTPOS.publish(msg)
-						#rospy.loginfo(msg)
+						rospy.loginfo(msg)
+				elif msg_id == sl.BESTGNSSPOSB["MsgID"]:
+						msg_hex = Propak6.read(msg_len).encode("hex")
+						msg = sl.bestpos_rosmsg(msg_hex, header_hex)
+						pub_BESTGNSSPOS.publish(msg)
+						rospy.loginfo(msg)
 				else:
 					rospy.loginfo("HIT ELSE: UNKNOWN LOG " + str(msg_len) + " " + str(msg_id))
 

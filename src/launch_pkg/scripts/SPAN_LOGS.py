@@ -131,6 +131,17 @@ BESTPOSB = {
 	"#solSVs":(65,'B'),
 	"#solL1SVs":(66,'B'),
 	"#solMultiSVs":(67,'B'),
+	"reserved":(68,'B'),
+	"ext sol stat":(69,'B'),
+	"galileo beidou sig mask":(70,'B'),
+	"gps glonass sigmask":(71,'B'),
+}
+
+# https://docs.novatel.com/OEM7/Content/SPAN_Logs/BESTGNSSPOS.htm
+# Same structure as BESTPOS
+BESTGNSSPOSB = {
+	"MsgID": 1429,
+	"Length": 72
 }
 
 
@@ -210,6 +221,10 @@ def bestpos_rosmsg(msg_hex, header_hex):
 	msg.num_sol_sats = Get_Value(msg_hex, BESTPOSB["#solSVs"])
 	msg.num_sol_l1_sats = Get_Value(msg_hex, BESTPOSB["#solL1SVs"])
 	msg.num_sol_multi_sats = Get_Value(msg_hex, BESTPOSB["#solMultiSVs"])
+	msg.reserved = Get_Value(msg_hex, BESTPOSB["reserved"])
+	msg.ext_sol_stat = Get_Value(msg_hex, BESTPOSB["ext sol stat"])
+	msg.galileo_beidou_sigmask = Get_Value(msg_hex, BESTPOSB["galileo beidou sig mask"])
+	msg.gps_glonass_sigmask = Get_Value(msg_hex, BESTPOSB["gps glonass sigmask"])
 	return msg
 
 ######################## Helper Functions #################################

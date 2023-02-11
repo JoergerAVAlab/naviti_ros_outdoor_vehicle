@@ -1,4 +1,4 @@
-# INSPVAS Message ID: 508
+# INSPVAS Message ID: 42
 # Author: Brandon Medellin
 # Date: 2/10/2023
 
@@ -56,12 +56,13 @@ uint8 num_sol_l1_sats
 uint8 num_sol_multi_sats
 
 # Reserved
-
+uint8 reserved
 
 # ext sol stat 
-
+uint8 ext_sol_stat
 
 # Galileo and BeiDou sig mask 
-
+uint8 galileo_beidou_sigmask
 
 # GPS and GLONASS sig mask
+uint8 gps_glonass_sigmask
