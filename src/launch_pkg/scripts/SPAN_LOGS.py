@@ -210,6 +210,7 @@ def bestpos_rosmsg(msg_hex, header_hex):
 	msg.num_sol_sats = Get_Value(msg_hex, BESTPOSB["#solSVs"])
 	msg.num_sol_l1_sats = Get_Value(msg_hex, BESTPOSB["#solL1SVs"])
 	msg.num_sol_multi_sats = Get_Value(msg_hex, BESTPOSB["#solMultiSVs"])
+	return msg
 
 ######################## Helper Functions #################################
 
