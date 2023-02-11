@@ -11,8 +11,6 @@ sudo chmod 777 /dev/ttyUSB0
 sudo ip addr add 10.5.5.1/24 dev enx00e04c681332
 sudo ip link set enx00e04c681332 up
 
-sleep 2
-
 sudo dnsmasq -C /dev/null -kd -F 10.5.5.50,10.5.5.100 -i enx00e04c681332 --bind-dynamic
 
 catkin_make
