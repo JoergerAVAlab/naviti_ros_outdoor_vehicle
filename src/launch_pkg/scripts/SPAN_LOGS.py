@@ -23,6 +23,7 @@ FORMATS = {
 		'd':8, # (Double) 64-bit Float
 		'f':4, # (Float) 32-bit Float
 		'4s':4, # 4 byte character array (string)
+		'4c':4, # 4 byte character array indivudual characters
 }
 
 # Short Header Documentation https://docs.novatel.com/OEM7/Content/Messages/Description_of_Short_Headers.htm
@@ -124,7 +125,7 @@ BESTPOSB = {
 	"lat std":(40,'f'),
 	"lon std":(44,'f'),
 	"hgt std":(48,'f'),
-	"base station ID":(52,'4s'),
+	"base station ID":(52,'4c'),
 	"diff age":(56,'f'),
 	"sol age":(60,'f'),
 	"#SVs":(64,'B'),
