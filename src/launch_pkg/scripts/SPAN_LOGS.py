@@ -3,9 +3,8 @@
 # Author: Brandon Medellin
 # Last Update: 01/25/2023
 
-from email import header
 import struct
-from novatel_pkg.msg import INSPVAS, RANGE, RAWIMUSX, BESTPOS
+from novatel_pkg.msg import INSPVAS, RANGE, RAWIMUSX, BESTPOS, CORRIMUS
 
 HEX = 2   # number of characters in hex that represent 1 BYTE
 
@@ -145,6 +144,22 @@ BESTGNSSPOSB = {
 	"Length": 72
 }
 
+# https://docs.novatel.com/OEM7/Content/SPAN_Logs/CORRIMUS.htm
+# Data Model for CORRIMUS log from NovAtel
+CORRIMUSB = {
+	"MsgID": 2264,
+	"Length": 60,
+	"imu_data_count": (0,'I'),
+	"pitch_rate": (4, 'd'),
+	"roll_rate": (12, 'd'),
+	"yaw_rate": (20, 'd'),
+	"lat_accel": (28, 'd'),
+	"long_accel": (36, 'd'),
+	"vert_accel": (44, 'd'),
+	"reserved_1": (52, 'f'),
+	"reserved_2": (56, 'I'),
+}
+
 
 # Format ROS Messages
 # Link for creating custom messages http://wiki.ros.org/ROS/Tutorials/CreatingMsgAndSrv#Creating_a_msg
@@ -227,6 +242,21 @@ def bestpos_rosmsg(msg_hex, header_hex):
 	msg.galileo_beidou_sigmask = Get_Value(msg_hex, BESTPOSB["galileo beidou sig mask"])
 	msg.gps_glonass_sigmask = Get_Value(msg_hex, BESTPOSB["gps glonass sigmask"])
 	return msg
+
+def corrimus_rosmsg(msg_hex, header_hex):
+	msg = CORRIMUS()
+	msg = populate_short_header(msg, header_hex)
+	msg.imu_data_count = Get_Value(msg_hex, CORRIMUSB["imu_data_count"])
+	msg.linear_acceleration.z = Get_Value(msg_hex, CORRIMUSB["yaw_rate"])
+	msg.linear_acceleration.y = Get_Value(msg_hex, CORRIMUSB["roll_rate"])
+	msg.linear_acceleration.x = Get_Value(msg_hex, CORRIMUSB["pitch_rate"])
+	msg.angular_velocity.z = Get_Value(msg_hex, CORRIMUSB["vert_accel"])
+	msg.angular_velocity.y = Get_Value(msg_hex, CORRIMUSB["long_accel"])
+	msg.angular_velocity.x = Get_Value(msg_hex, CORRIMUSB["lat_accel"])
+	msg.reserved_1 = Get_Value(msg_hex, CORRIMUSB["reserved_1"])
+	msg.reserved_2 = Get_Value(msg_hex, CORRIMUSB["reserved_2"])
+	return msg
+
 
 ######################## Helper Functions #################################
 
