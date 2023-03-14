@@ -100,7 +100,7 @@
     pkg="rosbag"
     type="record"
     name="span_bag"
-    args="-O $(find launch_pkg)/bags/SPAN_DATA.bag /INPVAS_publisher /RAWIMUSX_publisher /RANGE_publisher /BESTPOS_publisher /BESTGNSSPOS_publisher /CORRIMUS_publisher"
+    args="-O $(find launch_pkg)/bags/SPAN_DATA.bag /INPVAS_publisher /RAWIMUSX_publisher /RANGE_publisher /BESTPOS_publisher /BESTGNSSPOS_publisher /CORRIMUDATAS_publisher"
     output="screen"
   />
 

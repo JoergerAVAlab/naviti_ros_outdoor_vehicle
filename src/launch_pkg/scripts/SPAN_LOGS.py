@@ -4,7 +4,7 @@
 # Last Update: 01/25/2023
 
 import struct
-from novatel_pkg.msg import INSPVAS, RANGE, RAWIMUSX, BESTPOS, CORRIMUS
+from novatel_pkg.msg import INSPVAS, RANGE, RAWIMUSX, BESTPOS, CORRIMUS, CORRIMUDATAS
 
 HEX = 2   # number of characters in hex that represent 1 BYTE
 
@@ -160,6 +160,21 @@ CORRIMUSB = {
 	"reserved_2": (56, 'I'),
 }
 
+# https://docs.novatel.com/OEM7/Content/SPAN_Logs/CORRIMUDATAS.htm
+# Data Model for CORRIMUDATAS log from NovAtel
+CORRIMUDATASB = {
+	"MsgID": 813,
+	"Length": 56,
+	"gnss_week":(0,'I'),
+	"gnss_seconds":(4,'d'),
+	"pitch_rate": (12, 'd'),
+	"roll_rate": (20, 'd'),
+	"yaw_rate": (28, 'd'),
+	"lat_accel": (36, 'd'),
+	"long_accel": (44, 'd'),
+	"vert_accel": (52, 'd'),
+}
+
 
 # Format ROS Messages
 # Link for creating custom messages http://wiki.ros.org/ROS/Tutorials/CreatingMsgAndSrv#Creating_a_msg
@@ -255,6 +270,19 @@ def corrimus_rosmsg(msg_hex, header_hex):
 	msg.angular_velocity.x = Get_Value(msg_hex, CORRIMUSB["lat_accel"])
 	msg.reserved_1 = Get_Value(msg_hex, CORRIMUSB["reserved_1"])
 	msg.reserved_2 = Get_Value(msg_hex, CORRIMUSB["reserved_2"])
+	return msg
+
+def corrimudatas_rosmsg(msg_hex, header_hex):
+	msg = CORRIMUDATAS()
+	msg = populate_short_header(msg, header_hex)
+	msg.gnss_week = Get_Value(msg_hex, CORRIMUDATASB["gnss_week"])
+	msg.gnss_seconds = Get_Value(msg_hex, CORRIMUDATASB["gnss_seconds"])
+	msg.linear_acceleration.z = Get_Value(msg_hex, CORRIMUDATASB["yaw_rate"])
+	msg.linear_acceleration.y = Get_Value(msg_hex, CORRIMUDATASB["roll_rate"])
+	msg.linear_acceleration.x = Get_Value(msg_hex, CORRIMUDATASB["pitch_rate"])
+	msg.angular_velocity.z = Get_Value(msg_hex, CORRIMUDATASB["vert_accel"])
+	msg.angular_velocity.y = Get_Value(msg_hex, CORRIMUDATASB["long_accel"])
+	msg.angular_velocity.x = Get_Value(msg_hex, CORRIMUDATASB["lat_accel"])
 	return msg
 
 
