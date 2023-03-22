@@ -58,6 +58,8 @@ add_message_files(
   RAWIMUSX.msg
   BESTPOS.msg
   CORRIMUS.msg
+  CORRIMUDATAS.msg
+  TIME.msg
 )
 
 ## Generate services in the 'srv' folder
