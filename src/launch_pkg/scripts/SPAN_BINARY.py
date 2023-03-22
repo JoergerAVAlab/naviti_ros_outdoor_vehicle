@@ -7,7 +7,7 @@ from novatel_pkg.msg import INSPVAS, RANGE, RAWIMUSX, BESTPOS
 from colorama import Fore, Back, Style
 import SPAN_LOGS as sl
 
-Propak6 = serial.Serial( '/dev/ttyUSB0' , 115200 )
+Propak6 = serial.Serial( '/dev/ttyUSB0' , 230400 )
 
 def SPAN_node():
 
