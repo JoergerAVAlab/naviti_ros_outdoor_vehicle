@@ -91,6 +91,7 @@ def SPAN_node():
 					msg_hex = Propak6.read(msg_len).encode("hex")
 					msg = sl.time_rosmsg(msg_hex, header_hex)
 					pub_TIME.publish(msg)
+					rospy.loginfo(msg)
 				else:
 					msg_hex = Propak6.read(msg_len)
 					rospy.loginfo("HIT ELSE: UNKNOWN LOG " + str(msg_len) + " " + str(msg_id))
