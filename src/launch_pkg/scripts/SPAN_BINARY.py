@@ -79,11 +79,11 @@ def SPAN_node():
 					msg = sl.bestpos_rosmsg(msg_hex, header_hex)
 					pub_BESTGNSSPOS.publish(msg)
 					#rospy.loginfo(msg)
-				elif msg_id == sl.CORRIMUS["MsgID"]:
+				elif msg_id == sl.CORRIMUSB["MsgID"]:
 					msg_hex = Propak6.read(msg_len).encode("hex")
 					msg = sl.corrimus_rosmsg(msg_hex, header_hex)
 					#pub_CORRIMUS.publish(msg)
-				elif msg_id == sl.CORRIMUDATAS["MsgID"]:
+				elif msg_id == sl.CORRIMUDATASB["MsgID"]:
 					msg_hex = Propak6.read(msg_len).encode("hex")
 					msg = sl.corrimudatas_rosmsg(msg_hex, header_hex)
 					pub_CORRIMUDATAS.publish(msg)
