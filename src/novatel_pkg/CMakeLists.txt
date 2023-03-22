@@ -57,6 +57,7 @@ add_message_files(
   INSPVAS.msg
   RAWIMUSX.msg
   BESTPOS.msg
+  CORRIMUS.msg
 )
 
 ## Generate services in the 'srv' folder

@@ -3,9 +3,8 @@
 # Author: Brandon Medellin
 # Last Update: 01/25/2023
 
-from email import header
 import struct
-from novatel_pkg.msg import INSPVAS, RANGE, RAWIMUSX, BESTPOS
+from novatel_pkg.msg import INSPVAS, RANGE, RAWIMUSX, BESTPOS, CORRIMUS, CORRIMUDATAS, TIME
 
 HEX = 2   # number of characters in hex that represent 1 BYTE
 
@@ -145,6 +144,55 @@ BESTGNSSPOSB = {
 	"Length": 72
 }
 
+# https://docs.novatel.com/OEM7/Content/SPAN_Logs/CORRIMUS.htm
+# Data Model for CORRIMUS log from NovAtel
+CORRIMUSB = {
+	"MsgID": 2264,
+	"Length": 60,
+	"imu_data_count": (0,'I'),
+	"pitch_rate": (4, 'd'),
+	"roll_rate": (12, 'd'),
+	"yaw_rate": (20, 'd'),
+	"lat_accel": (28, 'd'),
+	"long_accel": (36, 'd'),
+	"vert_accel": (44, 'd'),
+	"reserved_1": (52, 'f'),
+	"reserved_2": (56, 'I'),
+}
+
+# https://docs.novatel.com/OEM7/Content/SPAN_Logs/CORRIMUDATAS.htm
+# Data Model for CORRIMUDATAS log from NovAtel
+CORRIMUDATASB = {
+	"MsgID": 813,
+	"Length": 56,
+	"gnss_week":(0,'I'),
+	"gnss_seconds":(4,'d'),
+	"pitch_rate": (12, 'd'),
+	"roll_rate": (20, 'd'),
+	"yaw_rate": (28, 'd'),
+	"lat_accel": (36, 'd'),
+	"long_accel": (44, 'd'),
+	"vert_accel": (52, 'd'),
+}
+
+# https://docs.novatel.com/OEM7/Content/Logs/TIME.htm
+# Data Model for TIME log from NovAtel
+TIMEB = {
+	"MsgID": 101,
+	"Length": 44,
+	"clock_status": (0, 'I'),
+	"offset": (4, 'd'),
+	"offset_std": (12, 'd'),
+	"utc_offset": (20, 'd'),
+	"utc_year": (28, 'I'),
+	"utc_month": (32, 'B'),
+	"utc_day": (33, 'B'),
+	"utc_hour": (34, 'B'),
+	"utc_min": (35, 'B'),
+	"utc_ms": (36, 'I'),
+	"utc_status": (40, 'I')
+}
+
 
 # Format ROS Messages
 # Link for creating custom messages http://wiki.ros.org/ROS/Tutorials/CreatingMsgAndSrv#Creating_a_msg
@@ -226,6 +274,49 @@ def bestpos_rosmsg(msg_hex, header_hex):
 	msg.ext_sol_stat = Get_Value(msg_hex, BESTPOSB["ext sol stat"])
 	msg.galileo_beidou_sigmask = Get_Value(msg_hex, BESTPOSB["galileo beidou sig mask"])
 	msg.gps_glonass_sigmask = Get_Value(msg_hex, BESTPOSB["gps glonass sigmask"])
+	return msg
+
+def corrimus_rosmsg(msg_hex, header_hex):
+	msg = CORRIMUS()
+	msg = populate_short_header(msg, header_hex)
+	msg.imu_data_count = Get_Value(msg_hex, CORRIMUSB["imu_data_count"])
+	msg.linear_acceleration.z = Get_Value(msg_hex, CORRIMUSB["yaw_rate"])
+	msg.linear_acceleration.y = Get_Value(msg_hex, CORRIMUSB["roll_rate"])
+	msg.linear_acceleration.x = Get_Value(msg_hex, CORRIMUSB["pitch_rate"])
+	msg.angular_velocity.z = Get_Value(msg_hex, CORRIMUSB["vert_accel"])
+	msg.angular_velocity.y = Get_Value(msg_hex, CORRIMUSB["long_accel"])
+	msg.angular_velocity.x = Get_Value(msg_hex, CORRIMUSB["lat_accel"])
+	msg.reserved_1 = Get_Value(msg_hex, CORRIMUSB["reserved_1"])
+	msg.reserved_2 = Get_Value(msg_hex, CORRIMUSB["reserved_2"])
+	return msg
+
+def corrimudatas_rosmsg(msg_hex, header_hex):
+	msg = CORRIMUDATAS()
+	msg = populate_short_header(msg, header_hex)
+	msg.gnss_week = Get_Value(msg_hex, CORRIMUDATASB["gnss_week"])
+	msg.gnss_seconds = Get_Value(msg_hex, CORRIMUDATASB["gnss_seconds"])
+	msg.linear_acceleration.z = Get_Value(msg_hex, CORRIMUDATASB["yaw_rate"])
+	msg.linear_acceleration.y = Get_Value(msg_hex, CORRIMUDATASB["roll_rate"])
+	msg.linear_acceleration.x = Get_Value(msg_hex, CORRIMUDATASB["pitch_rate"])
+	msg.angular_velocity.z = Get_Value(msg_hex, CORRIMUDATASB["vert_accel"])
+	msg.angular_velocity.y = Get_Value(msg_hex, CORRIMUDATASB["long_accel"])
+	msg.angular_velocity.x = Get_Value(msg_hex, CORRIMUDATASB["lat_accel"])
+	return msg
+
+def time_rosmsg(msg_hex, header_hex):
+	msg = TIME()
+	msg = populate_long_header(msg, header_hex)
+	msg.clock_status = Get_Value(msg_hex, TIMEB["clock_status"])
+	msg.offset = Get_Value(msg_hex, TIMEB["offset"])
+	msg.offset_std = Get_Value(msg_hex, TIMEB["offset_std"])
+	msg.utc_offset = Get_Value(msg_hex, TIMEB["utc_offset"])
+	msg.utc_year = Get_Value(msg_hex, TIMEB["utc_year"])
+	msg.utc_month = Get_Value(msg_hex, TIMEB["utc_month"])
+	msg.utc_year = Get_Value(msg_hex, TIMEB["utc_year"])
+	msg.utc_hour = Get_Value(msg_hex, TIMEB["utc_hour"])
+	msg.utc_min = Get_Value(msg_hex, TIMEB["utc_min"])
+	msg.utc_ms = Get_Value(msg_hex, TIMEB["utc_ms"])
+	msg.utc_status = Get_Value(msg_hex, TIMEB["utc_status"])
 	return msg
 
 ######################## Helper Functions #################################
