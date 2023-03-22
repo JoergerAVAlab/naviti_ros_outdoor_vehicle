@@ -3,7 +3,7 @@
 import rospy
 from std_msgs.msg import String
 import serial
-from novatel_pkg.msg import INSPVAS, RANGE, RAWIMUSX, BESTPOS, CORRIMUS, CORRIMUDATAS
+from novatel_pkg.msg import INSPVAS, RANGE, RAWIMUSX, BESTPOS, CORRIMUS, CORRIMUDATAS, TIME
 from colorama import Fore, Back, Style
 import SPAN_LOGS as sl
 
@@ -19,6 +19,7 @@ def SPAN_node():
 	pub_BESTGNSSPOS = rospy.Publisher('BESTGNSSPOS_publisher', BESTPOS, queue_size=3)
 	#pub_CORRIMUS = rospy.Publisher('CORRIMUS_publisher', CORRIMUS, queue_size=3)
 	pub_CORRIMUDATAS = rospy.Publisher('CORRIMUDATAS_publisher', CORRIMUDATAS, queue_size=3)
+	pub_TIME = rospy.Publisher('TIME_publisher', TIME, queue_size=3)
 
 	rospy.init_node('SPAN_node')
 	align = False
@@ -86,6 +87,10 @@ def SPAN_node():
 					msg_hex = Propak6.read(msg_len).encode("hex")
 					msg = sl.corrimudatas_rosmsg(msg_hex, header_hex)
 					pub_CORRIMUDATAS.publish(msg)
+				elif msg_id == sl.TIMEB["MsgID"]:
+					msg_hex = Propak6.read(msg_len).encode("hex")
+					msg = sl.time_rosmsg(msg_hex, header_hex)
+					pub_TIME.publish(msg)
 				else:
 					msg_hex = Propak6.read(msg_len)
 					rospy.loginfo("HIT ELSE: UNKNOWN LOG " + str(msg_len) + " " + str(msg_id))

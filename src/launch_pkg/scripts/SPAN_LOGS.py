@@ -4,7 +4,7 @@
 # Last Update: 01/25/2023
 
 import struct
-from novatel_pkg.msg import INSPVAS, RANGE, RAWIMUSX, BESTPOS, CORRIMUS, CORRIMUDATAS
+from novatel_pkg.msg import INSPVAS, RANGE, RAWIMUSX, BESTPOS, CORRIMUS, CORRIMUDATAS, TIME
 
 HEX = 2   # number of characters in hex that represent 1 BYTE
 
@@ -175,6 +175,24 @@ CORRIMUDATASB = {
 	"vert_accel": (52, 'd'),
 }
 
+# https://docs.novatel.com/OEM7/Content/Logs/TIME.htm
+# Data Model for TIME log from NovAtel
+TIMEB = {
+	"MsgID": 101,
+	"Length": 44,
+	"clock_status": (0, 'I'),
+	"offset": (4, 'd'),
+	"offset_std": (12, 'd'),
+	"utc_offset": (20, 'd'),
+	"utc_year": (28, 'I'),
+	"utc_month": (32, 'B'),
+	"utc_day": (33, 'B'),
+	"utc_hour": (34, 'B'),
+	"utc_min": (35, 'B'),
+	"utc_ms": (36, 'I'),
+	"utc_status": (40, 'I')
+}
+
 
 # Format ROS Messages
 # Link for creating custom messages http://wiki.ros.org/ROS/Tutorials/CreatingMsgAndSrv#Creating_a_msg
@@ -285,6 +303,21 @@ def corrimudatas_rosmsg(msg_hex, header_hex):
 	msg.angular_velocity.x = Get_Value(msg_hex, CORRIMUDATASB["lat_accel"])
 	return msg
 
+def time_rosmsg(msg_hex, header_hex):
+	msg = TIME()
+	msg = populate_long_header(msg, header_hex)
+	msg.clock_status = Get_Value(msg_hex, TIMEB["clock_status"])
+	msg.offset = Get_Value(msg_hex, TIMEB["offset"])
+	msg.offset_std = Get_Value(msg_hex, TIMEB["offset_std"])
+	msg.utc_offset = Get_Value(msg_hex, TIMEB["utc_offset"])
+	msg.utc_year = Get_Value(msg_hex, TIMEB["utc_year"])
+	msg.utc_month = Get_Value(msg_hex, TIMEB["utc_month"])
+	msg.utc_year = Get_Value(msg_hex, TIMEB["utc_year"])
+	msg.utc_hour = Get_Value(msg_hex, TIMEB["utc_hour"])
+	msg.utc_min = Get_Value(msg_hex, TIMEB["utc_min"])
+	msg.utc_ms = Get_Value(msg_hex, TIMEB["utc_ms"])
+	msg.utc_status = Get_Value(msg_hex, TIMEB["utc_status"])
+	return msg
 
 ######################## Helper Functions #################################
 
