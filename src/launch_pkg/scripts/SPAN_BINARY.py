@@ -87,6 +87,7 @@ def SPAN_node():
 					msg_hex = Propak6.read(msg_len).encode("hex")
 					msg = sl.corrimudatas_rosmsg(msg_hex, header_hex)
 					pub_CORRIMUDATAS.publish(msg)
+					rospy.loginfo(msg)
 				elif msg_id == sl.TIMEB["MsgID"]:
 					msg_hex = Propak6.read(msg_len).encode("hex")
 					msg = sl.time_rosmsg(msg_hex, header_hex)
