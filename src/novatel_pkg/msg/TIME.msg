@@ -23,7 +23,7 @@ uint32 utc_year
 uint8 utc_month
 
 # UTC Day (0-31)
-uint8 utc_year
+uint8 utc_day
 
 # UTC hour (0-23)
 uint8 utc_hour

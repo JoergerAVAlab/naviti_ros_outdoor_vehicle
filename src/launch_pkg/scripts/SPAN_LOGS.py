@@ -312,7 +312,7 @@ def time_rosmsg(msg_hex, header_hex):
 	msg.utc_offset = Get_Value(msg_hex, TIMEB["utc_offset"])
 	msg.utc_year = Get_Value(msg_hex, TIMEB["utc_year"])
 	msg.utc_month = Get_Value(msg_hex, TIMEB["utc_month"])
-	msg.utc_year = Get_Value(msg_hex, TIMEB["utc_year"])
+	msg.utc_day = Get_Value(msg_hex, TIMEB["utc_day"])
 	msg.utc_hour = Get_Value(msg_hex, TIMEB["utc_hour"])
 	msg.utc_min = Get_Value(msg_hex, TIMEB["utc_min"])
 	msg.utc_ms = Get_Value(msg_hex, TIMEB["utc_ms"])
