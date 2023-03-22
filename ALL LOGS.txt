@@ -1,0 +1,58 @@
+Ground station settings and logs:
+
+1- FRESET
+2- SERIALCONFIG COM1 115200 N 8 1 N
+3- INTERFACEMODE COM1 NONE RTCMV3 OFF
+4- LOG COM1 RTCM1004 ONTIME 1
+5- LOG COM1 RTCM1006 ONTIME 10
+6- LOG COM1 RTCM1019 ONTIME 120
+7- AUTOSURVEY ENABLE 10 .1 4
+%%%%%%%% EXTRA LOGS %%%%%%%%%%%%%%%%%%% 
+8- ELEVATIONCUTOFF ALL 30
+9- lOG RANGEB ONTIME 1
+10-LOG RAWEPHEMB ONCHANGED
+
+--------------------------------------------------------------------------------------
+Rover RTK settings and logs:
+
+1- SERIALCONFIG COM1 115200 N 8 1 N
+2- INTERFACEMODE COM1 RTCMV3 NONE OFF
+%%%%%%%% EXTRA LOGS %%%%%%%%%%%%%%%%%%%
+3- ELEVATIONCUTOFF ALL 30
+
+--------------------------------------------------------------------------------------
+Rover SPAN settings :
+
+1- CONNECTIMU COM3 IMU_ADIS16488
+2- SETIMUTOANTOFFSET -0.13 0 0.85 0.02 0.02 0.02 ===>> careful, all are in meter unit
+3- SETIMUORIENTATION 5
+4- VEHICLEBODYROTATION 0 0 0
+5- SETALIGNMENTVEL 2.0
+6- SETINSPROFILE LAND --> NEW FOR CHECKING
+7--> START DRIVING FOR CALIBRATION
+
+-------------------------------------------------------------------------------------
+Change of baud rate:
+
+1- SERIALCONFIG COM2 230400 --> Don't forget to change the baud rate in SPAN_BINARY.py
+
+--------------------------------------------------------------------------------------
+Rover SPAN logs:
+
+1- LOG LOGLISTA ONCE
+2- UNLOGALL COM2_30 TRUE 
+3- LOG LOGLISTA ONCE --> FOR CHECKING
+
+4- LOG RAWIMUSXB ONNEW
+ - log corrimudatasb ontime 0.01
+
+5- LOG INSPVASB ONTIME 0.05 (0.02=50HZ) --> YOU CAN GO LOWER
+6- LOG RANGEB ONTIME 1
+7- LOG BESTPOSB ONTIME 1
+8- LOG BESTGNSSPOSB ONTIME 1
+%%%%%%%%% TROUBLESHOOTING & EXTRA LOGS %%%%%%%%%%%%
+9- LOG INSCONFIGB ONCHANGED 
+10-LOG RXSTATUSB ONCHANGED
+11-LOG INSPVAXB ONTIME 1
+12-LOG RAWEPHEMB ONCHANGED 
+

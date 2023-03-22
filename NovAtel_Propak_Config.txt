@@ -1,0 +1,11 @@
+serialconfig com2 115200
+ppscontrol enable negative
+unlogall com2_ALL true
+unlogall usb1_ALL true
+log loglista once
+log inspvasb ontime 0.02
+log corrimudatasb onnew
+log timeb ontime 1
+log com2 gprmca ontime 1
+
+
