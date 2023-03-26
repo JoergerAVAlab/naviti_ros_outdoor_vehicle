@@ -1,11 +1,86 @@
-serialconfig com2 115200
-ppscontrol enable negative
-unlogall com2_ALL true
-unlogall usb1_ALL true
-log loglista once
-log inspvasb ontime 0.02
-log corrimudatasb onnew
-log timeb ontime 1
-log com2 gprmca ontime 1
+# Brandon Medellin and Ali Hassani
+# Configuration for NovAtel for the Outdoor Experiment
+# Instructions: Open NovAtel Application Suite on desktop with NovAtel Propak6 plugged in via micro-USB
+# Make a new connection over USB in the application, then go the terminal tab in the application and click
+# the load button, choose this file and the commands will automatically be called.
+
+###########################################################
+# Rover RTK settings and logs
+###########################################################
+
+SERIALCONFIG COM1 115200 N 8 1 N
+INTERFACEMODE COM1 RTCMV3 NONE OFF
+
+# EXTRA LOGS
+ELEVATIONCUTOFF ALL 30
+
+###########################################################
+# Rover SPAN settings 
+###########################################################
+
+CONNECTIMU COM3 IMU_ADIS16488
+
+# Units in meter here
+SETIMUTOANTOFFSET -0.13 0 0.85 0.02 0.02 0.02
+SETIMUORIENTATION 5
+VEHICLEBODYROTATION 0 0 0
+SETALIGNMENTVEL 2.0
+
+# New for checking
+SETINSPROFILE LAND
+
+# Start Driving for Calibration
+
+###########################################################
+# Change of baud rate
+###########################################################
+
+# Specify desired baude rate in SPAN_BINARY.py. COM2 is depricated. 
+# Now using micro-usb connection for logging to computer.
+
+# Now COM2 is for NMEA $GPRMC message which needs to match baude rate on ouster config.
+SERIALCONFIG COM2 115200
+
+###########################################################
+# Rover SPAN logs:
+###########################################################
+
+# The loglist is for checking that most of the logs have been unlogged to reduce load on system
+LOG LOGLISTA ONCE
+# UNLOGALL COM2_30 TRUE
+UNLOGALL COM2_ALL TRUE
+UNLOGALL USB1_ALL TRUE
+LOG LOGLISTA ONCE
+
+# Exchangable logs for imu data
+
+# LOG RAWIMUSXB ONNEW
+LOG CORRIMUDATASB ONTIME 0.01
+
+# for ins data (0.02=50HZ)
+
+LOG INSPVASB ONTIME 0.05
+
+# Other gnss logs
+
+LOG RANGEB ONTIME 1
+# LOG BESTPOSB ONTIME 1
+# LOG BESTGNSSPOSB ONTIME 1
+
+# Other logs, search on google with keyword novatel for documentation of each log
+
+# LOG INSCONFIGB ONCHANGED 
+# LOG RXSTATUSB ONCHANGED
+# LOG INSPVAXB ONTIME 1
+# LOG RAWEPHEMB ONCHANGED 
+
+##############################################################
+# Time Sychronization Logs
+##############################################################
+
+PPSCONTROL ENABLE NEGATIVE
+LOG COM2 GPRMCA ONTIME 1
+LOG TIMEB ONTIME 1
+
 
 
