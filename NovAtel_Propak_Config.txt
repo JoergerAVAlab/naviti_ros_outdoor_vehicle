@@ -26,8 +26,8 @@ SETIMUORIENTATION 5
 VEHICLEBODYROTATION 0 0 0
 SETALIGNMENTVEL 2.0
 
-# New for checking
-SETINSPROFILE LAND
+# New for checking (did not recognize this message must be for newer)
+# SETINSPROFILE LAND
 
 # Start Driving for Calibration
 
