@@ -7,7 +7,7 @@ from novatel_pkg.msg import INSPVAS, RANGE, RAWIMUSX, BESTPOS, CORRIMUS, CORRIMU
 from colorama import Fore, Back, Style
 import SPAN_LOGS as sl
 
-Propak6 = serial.Serial( '/dev/ttyUSB0' , 230400 )
+Propak6 = serial.Serial( '/dev/ttyUSB0' , 115200 )
 
 def SPAN_node():
 
@@ -87,7 +87,7 @@ def SPAN_node():
 					msg_hex = Propak6.read(msg_len).encode("hex")
 					msg = sl.corrimudatas_rosmsg(msg_hex, header_hex)
 					pub_CORRIMUDATAS.publish(msg)
-					rospy.loginfo(msg)
+					#rospy.loginfo(msg)
 				elif msg_id == sl.TIMEB["MsgID"]:
 					msg_hex = Propak6.read(msg_len).encode("hex")
 					msg = sl.time_rosmsg(msg_hex, header_hex)

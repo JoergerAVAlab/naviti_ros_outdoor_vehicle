@@ -295,12 +295,12 @@ def corrimudatas_rosmsg(msg_hex, header_hex):
 	msg = populate_short_header(msg, header_hex)
 	msg.gnss_week = Get_Value(msg_hex, CORRIMUDATASB["gnss_week"])
 	msg.gnss_seconds = Get_Value(msg_hex, CORRIMUDATASB["gnss_seconds"])
-	msg.linear_acceleration.z = Get_Value(msg_hex, CORRIMUDATASB["yaw_rate"])
-	msg.linear_acceleration.y = Get_Value(msg_hex, CORRIMUDATASB["roll_rate"])
-	msg.linear_acceleration.x = Get_Value(msg_hex, CORRIMUDATASB["pitch_rate"])
-	msg.angular_velocity.z = Get_Value(msg_hex, CORRIMUDATASB["vert_accel"])
-	msg.angular_velocity.y = Get_Value(msg_hex, CORRIMUDATASB["long_accel"])
-	msg.angular_velocity.x = Get_Value(msg_hex, CORRIMUDATASB["lat_accel"])
+	msg.angular_velocity.z = Get_Value(msg_hex, CORRIMUDATASB["yaw_rate"])
+	msg.angular_velocity.y = Get_Value(msg_hex, CORRIMUDATASB["roll_rate"])
+	msg.angular_velocity.x = Get_Value(msg_hex, CORRIMUDATASB["pitch_rate"])
+	msg.linear_acceleration.z = Get_Value(msg_hex, CORRIMUDATASB["vert_accel"])
+	msg.linear_acceleration.y = Get_Value(msg_hex, CORRIMUDATASB["long_accel"])
+	msg.linear_acceleration.x = Get_Value(msg_hex, CORRIMUDATASB["lat_accel"])
 	return msg
 
 def time_rosmsg(msg_hex, header_hex):

@@ -1,0 +1,190 @@
+<!-- -*- mode: XML -*- -->
+<launch>
+
+  <arg name="udp_dest" default="10.5.5.1" doc="hostname or IP where the sensor will send data packets"/>
+  <arg name="lidar_port" default="7501" doc="port to which the sensor should send lidar data"/>
+  <arg name="imu_port" default="7503" doc="port to which the sensor should send imu data"/>
+  <arg name="replay" default="false" doc="do not connect to a sensor; expect /os_node/{lidar,imu}_packets from replay"/>
+  <arg name="lidar_mode" default="2048x10" doc="resolution and rate: either 512x10, 512x20, 1024x10, 1024x20, or 2048x10"/>
+  <arg name="timestamp_mode" default="" doc="method used to timestamp measurements: TIME_FROM_INTERNAL_OSC, TIME_FROM_SYNC_PULSE_IN, TIME_FROM_PTP_1588"/>
+  <arg name="metadata" default="" doc="override default metadata file for replays"/>
+  <arg name="viz" default="true" doc="whether to run a simple visualizer"/>
+  <arg name="image" default="false" doc="publish range/intensity/ambient image topic"/>
+  <arg name="tf_prefix" default="" doc="namespace for tf transforms"/>
+  <arg name="visualize" default="true"/>
+  <arg name="obstacle_array" default="false"/>
+  <arg name="node_start_delay_IMU" default="0.0" />
+  <arg name="node_start_delay_LiDAR" default="10.0" />
+  <arg name="server" default="172.21.149.183"/> <!-- Needs to match ip on streaming pane under the "Local Interface" select loopback and second IP -->
+
+
+  <!--
+  <node
+    pkg="Data_collection"
+    type="Opti_track.py"
+    name="Opti_track"
+    output="screen"
+  />
+  -->
+
+  <!--
+  <node
+    pkg="Data_collection"
+    type="SPAN.py"
+    name="SPAN"
+    output="screen"
+  />
+  -->
+
+
+  <node
+    pkg="launch_pkg"
+    type="IMU.py"
+    name="IMU"
+    launch-prefix="bash -c 'sleep $(arg node_start_delay_IMU); $0 $A' "
+    output="screen"
+  />
+
+  
+  <node 
+    pkg="timed_roslaunch" 
+    type="timed_roslaunch.sh"
+    args="15 velodyne_pointcloud VLP16_points.launch"
+    name="timed_roslaunch" 
+    output="screen"
+  />
+
+  <node 
+    type="rviz" 
+    name="rviz" 
+    pkg="rviz" 
+    args="-d$(find velodyne_pointcloud)/rviz/vlp16.rviz" 
+  />
+
+
+  <!-- rosbag subscriber nodes that subscribe to a topic and record to a .bag file -->
+  <!--
+  <node
+    pkg="rosbag"
+    type="record"
+    name="vlp16_lidar"
+    args="record -O $(find Data_collection)/data/vlp16_lidar.bag /velodyne_points"
+    output="screen"
+  />
+
+  <node
+    pkg="rosbag"
+    type="record"
+    name="RAWIMUA"
+    args="record -O $(find Data_collection)/data/RAWIMUA.bag /RAWIMUA_message"
+    output="screen"
+  />
+  -->
+ 
+  <!--
+  <node
+    pkg="Data_collection"
+    type="Optitrack_Subscriber.py"
+    name="optitrack_subscriber"
+    output="screen"
+  />
+  -->
+
+  <node pkg="vrpn_client_ros" type="vrpn_client_node" name="vrpn_client_node" output="screen">
+    <rosparam subst_value="true">
+     server: $(arg server) 
+     port: 3883
+     
+     update_freqency: 100.0
+     frame_id: world
+     
+     use_server_time: false
+     brodcast_tf: true
+     
+     refresh_tracker_frequency: 1.0
+
+    </rosparam>
+  </node>
+ 
+
+  <node
+    pkg="rosbag"
+    type="record"
+    name="bag_node"
+    required="true"
+    args="record -O $(find launch_pkg)/bags/Train_Data.bag /RAWIMUSXB_message /vrpn_client_node/Train/pose /velodyne_points"
+    output="screen"
+  />
+
+  <!--
+  <node
+    pkg="rosbag"
+    type="record"
+    name="Opti_track_data"
+    args="record -O $(find Data_collection)/data/Opti_track.bag /vrpn_client_node/Train/pose"
+    output="screen"
+  />
+  -->
+
+<!--
+  <include file="$(find velodyne_pointcloud)/launch/VLP16_points.launch">
+-->
+<!--
+  <arg name="calibration" default="$(find velodyne_pointcloud)/params/VLP16db.yaml"/>
+  <arg name="device_ip" default="" />
+  <arg name="frame_id" default="velodyne" />
+  <arg name="manager" default="$(arg frame_id)_nodelet_manager" />
+  <arg name="max_range" default="130.0" />
+  <arg name="min_range" default="0.4" />
+  <arg name="pcap" default="" />
+  <arg name="port" default="2368" />
+  <arg name="read_fast" default="false" />
+  <arg name="read_once" default="false" />
+  <arg name="repeat_delay" default="0.0" />
+  <arg name="rpm" default="600.0" />
+  <arg name="gps_time" default="false" />
+  <arg name="pcap_time" default="false" />
+  <arg name="cut_angle" default="-0.01" />
+  <arg name="timestamp_first_packet" default="false" />
+  <arg name="laserscan_ring" default="-1" />
+  <arg name="laserscan_resolution" default="0.007" />
+  <arg name="organize_cloud" default="false" />
+
+  <include file="$(find velodyne_driver)/launch/nodelet_manager.launch">
+    <arg name="device_ip" value="$(arg device_ip)"/>
+    <arg name="frame_id" value="$(arg frame_id)"/>
+    <arg name="manager" value="$(arg manager)" />
+    <arg name="model" value="VLP16"/>
+    <arg name="pcap" value="$(arg pcap)"/>
+    <arg name="port" value="$(arg port)"/>
+    <arg name="read_fast" value="$(arg read_fast)"/>
+    <arg name="read_once" value="$(arg read_once)"/>
+    <arg name="repeat_delay" value="$(arg repeat_delay)"/>
+    <arg name="rpm" value="$(arg rpm)"/>
+    <arg name="gps_time" value="$(arg gps_time)"/>
+    <arg name="pcap_time" value="$(arg pcap_time)"/>
+    <arg name="cut_angle" value="$(arg cut_angle)"/>
+    <arg name="timestamp_first_packet" value="$(arg timestamp_first_packet)"/>
+  </include>
+
+  <include file="$(find velodyne_pointcloud)/launch/transform_nodelet.launch">
+    <arg name="model" value="VLP16"/>
+    <arg name="calibration" value="$(arg calibration)"/>
+    <arg name="manager" value="$(arg manager)" />
+    <arg name="fixed_frame" value="" />
+    <arg name="target_frame" value="" />
+    <arg name="max_range" value="$(arg max_range)"/>
+    <arg name="min_range" value="$(arg min_range)"/>
+    <arg name="organize_cloud" value="$(arg organize_cloud)"/>
+  </include>
+
+
+  <include file="$(find velodyne_pointcloud)/launch/laserscan_nodelet.launch">
+    <arg name="manager" value="$(arg manager)" />
+    <arg name="ring" value="$(arg laserscan_ring)"/>
+    <arg name="resolution" value="$(arg laserscan_resolution)"/>
+  </include>
+
+-->
+
+</launch>
