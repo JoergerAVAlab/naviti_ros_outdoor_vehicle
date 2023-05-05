@@ -247,7 +247,8 @@ def range_rosmsg(msg_hex, header_hex):
 	msg.adr_sig = Get_Value(msg_hex, RANGEB["adr sig"])
 	msg.dopp = Get_Value(msg_hex, RANGEB["dopp"])
 	msg.c_no = Get_Value(msg_hex, RANGEB["C/No"])
-	msg.locktime = Get_Value(msg_hex, RANGEB["ch-tr-status"])
+	msg.locktime = Get_Value(msg_hex, RANGEB["locktime"])
+	msg.ch_tr_status = Get_Value(msg_hex, RANGEB["ch-tr-status"])
 	return msg
 
 def bestpos_rosmsg(msg_hex, header_hex):
